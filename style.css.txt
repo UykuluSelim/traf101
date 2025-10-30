@@ -1,0 +1,226 @@
+
+
+
+- {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  }
+
+body {
+font-family: ‘Arial’, sans-serif;
+background: #0f0f23;
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+padding: 20px;
+}
+
+.game-container {
+background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+border: 2px solid #ffc107;
+padding: 45px;
+border-radius: 20px;
+box-shadow:
+0 0 30px rgba(255, 193, 7, 0.3),
+inset 0 0 20px rgba(255, 193, 7, 0.05);
+text-align: center;
+width: 100%;
+max-width: 550px;
+}
+
+.game-container::before {
+display: none;
+}
+
+h1 {
+color: #ffc107;
+margin-bottom: 10px;
+font-size: 2.5em;
+text-transform: uppercase;
+letter-spacing: 3px;
+text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+}
+
+.subtitle {
+color: #aaa;
+margin-bottom: 25px;
+font-size: 0.95em;
+text-transform: uppercase;
+letter-spacing: 2px;
+}
+
+.score-container {
+background: linear-gradient(90deg, #ff9800 0%, #ffc107 100%);
+color: #0f0f23;
+font-size: 1.4em;
+padding: 15px 25px;
+border-radius: 10px;
+margin-bottom: 25px;
+font-weight: bold;
+box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4);
+}
+
+.score-container::after {
+display: none;
+}
+
+#sign-image {
+width: 180px;
+height: 180px;
+margin: 20px auto;
+border: 3px solid #ffc107;
+border-radius: 10px;
+box-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
+object-fit: contain;
+background: #fff;
+}
+
+#question-text {
+font-size: 1.3em;
+color: #fff;
+margin: 20px 0;
+font-weight: 600;
+text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+#choices-list {
+list-style: none;
+padding: 0;
+margin: 25px 0;
+}
+
+#choices-list li {
+background: linear-gradient(145deg, #2a2a3e 0%, #1f1f32 100%);
+color: #ffc107;
+padding: 18px 20px;
+margin: 12px 0;
+border-radius: 10px;
+border: 2px solid #444;
+cursor: pointer;
+font-size: 1.05em;
+font-weight: 500;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+text-transform: uppercase;
+letter-spacing: 1px;
+}
+
+#choices-list li::before {
+display: none;
+}
+
+#choices-list li:hover:not(.correct):not(.incorrect) {
+border-color: #ffc107;
+box-shadow: 0 0 20px rgba(255, 193, 7, 0.4);
+background: linear-gradient(145deg, #2f2f44 0%, #24243a 100%);
+}
+
+.correct {
+background: linear-gradient(145deg, #28a745 0%, #20c997 100%) !important;
+color: white !important;
+border-color: #28a745 !important;
+box-shadow: 0 0 30px rgba(40, 167, 69, 0.6) !important;
+pointer-events: none;
+}
+
+.incorrect {
+background: linear-gradient(145deg, #dc3545 0%, #c82333 100%) !important;
+color: white !important;
+border-color: #dc3545 !important;
+box-shadow: 0 0 30px rgba(220, 53, 69, 0.6) !important;
+pointer-events: none;
+}
+
+@keyframes correctPulse {
+0%, 100% { transform: scale(1); }
+50% { transform: scale(1.02); }
+}
+
+@keyframes incorrectShake {
+0%, 100% { transform: translateX(0); }
+25% { transform: translateX(-5px); }
+75% { transform: translateX(5px); }
+}
+
+.feedback {
+margin-top: 20px;
+font-size: 1.4em;
+font-weight: bold;
+min-height: 30px;
+text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+button {
+background: linear-gradient(145deg, #ffc107 0%, #ff9800 100%);
+color: #0f0f23;
+border: 2px solid #ffc107;
+padding: 15px 35px;
+border-radius: 10px;
+cursor: pointer;
+font-size: 1.1em;
+font-weight: bold;
+margin-top: 15px;
+box-shadow: 0 5px 15px rgba(255, 193, 7, 0.4);
+text-transform: uppercase;
+letter-spacing: 2px;
+}
+
+button::before {
+display: none;
+}
+
+button:hover {
+border-color: #fff;
+box-shadow: 0 8px 25px rgba(255, 193, 7, 0.6);
+}
+
+button:active {
+transform: translateY(2px);
+box-shadow: 0 3px 10px rgba(255, 193, 7, 0.4);
+}
+
+.hide {
+display: none;
+}
+
+#quiz-area {
+/* Static - no animation */
+}
+
+.final-score {
+font-size: 2.5em;
+color: #ffc107;
+margin: 20px 0;
+font-weight: bold;
+text-shadow: 0 0 20px rgba(255, 193, 7, 0.6);
+}
+
+.progress-bar {
+width: 100%;
+height: 6px;
+background: #2a2a3e;
+border-radius: 10px;
+margin-bottom: 20px;
+overflow: hidden;
+box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.progress-fill {
+height: 100%;
+background: linear-gradient(90deg, #ffc107 0%, #ff9800 100%);
+transition: width 0.3s ease;
+border-radius: 10px;
+box-shadow: 0 0 10px rgba(255, 193, 7, 0.8);
+}
+
+/* Removed floating road signs */
+
+h2 {
+color: #ffc107;
+text-shadow: 0 0 15px rgba(255, 193, 7, 0.6);
+}
+
+p {
+color: #ddd;
+}

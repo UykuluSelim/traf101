@@ -1,0 +1,42 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Sign Quiz Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>🚦 Traffic Quiz</h1>
+        <p class="subtitle">Road Safety Challenge</p>
+
+```
+    <div class="score-container">
+        Score: <span id="score">0</span>
+    </div>
+    
+    <div class="progress-bar hide" id="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+    
+    <div id="quiz-area" class="hide">
+        <img id="sign-image" src="" alt="Traffic Sign">
+        <p id="question-text">What does this sign mean?</p>
+        <ul id="choices-list"></ul>
+        <div id="feedback" class="feedback"></div>
+        <button id="next-btn" class="hide">Next ➤</button>
+    </div>
+    
+    <button id="start-btn">Start Quiz</button>
+</div>
+
+<script src="script.js"></script>
+```
+
+</body>
+</html>
