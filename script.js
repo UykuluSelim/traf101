@@ -44,11 +44,95 @@ const nextBtn = document.getElementById('next-btn');
 const scoreSpan = document.getElementById('score');
 const progressBar = document.getElementById('progress-bar');
 const progressFill = document.getElementById('progress-fill');
+const progressMap = document.getElementById('progress-map');
+const progressDots = document.getElementById('progress-dots');
+const timerContainer = document.getElementById('timer-container');
+const gameContainer = document.getElementById('game-container');
 
 // Game State Variables
 let currentQuestionIndex = 0;
 let score = 0;
 let shuffledQuestions = [];
+let timerInterval;
+let timeLeft = 30;
+let questionResults = [];
+let audioContext;
+
+// Initialize Audio Context on user interaction
+function initAudioContext() {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+}
+
+// Sound Effects
+function playCorrectSound() {
+    if (!audioContext) return;
+    
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.value = 523.25; // C5
+    oscillator.type = 'sine';
+    
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.5);
+    
+    setTimeout(() => {
+        const osc2 = audioContext.createOscillator();
+        const gain2 = audioContext.createGain();
+        osc2.connect(gain2);
+        gain2.connect(audioContext.destination);
+        osc2.frequency.value = 659.25; // E5
+        osc2.type = 'sine';
+        gain2.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gain2.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+        osc2.start(audioContext.currentTime);
+        osc2.stop(audioContext.currentTime + 0.5);
+    }, 150);
+}
+
+function playIncorrectSound() {
+    if (!audioContext) return;
+    
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.value = 200;
+    oscillator.type = 'sawtooth';
+    
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.8);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.8);
+}
+
+// Create animated background
+function createTrafficEmojis() {
+    const emojis = ['🚗', '🚙', '🚕', '🚌', '🚎', '🏍️', '🚲', '🛴', '🚦', '🚥', '⛽', '🅿️', '🚧', '⚠️'];
+    const body = document.body;
+    
+    for (let i = 0; i < 15; i++) {
+        const emoji = document.createElement('div');
+        emoji.className = 'traffic-emoji';
+        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        emoji.style.left = Math.random() * 100 + '%';
+        emoji.style.top = Math.random() * 100 + '%';
+        emoji.style.animationDelay = Math.random() * 20 + 's';
+        emoji.style.animationDuration = (15 + Math.random() * 10) + 's';
+        body.appendChild(emoji);
+    }
+}
 
 // Theme Management
 function initTheme() {
@@ -66,20 +150,91 @@ function toggleTheme() {
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
 }
 
-// Event Listeners
-themeToggle.addEventListener('click', toggleTheme);
-startBtn.addEventListener('click', startGame);
-nextBtn.addEventListener('click', function() {
-    currentQuestionIndex++;
-    loadQuestion();
-});
+// Timer functions
+function startTimer() {
+    timeLeft = 30;
+    timerContainer.textContent = timeLeft;
+    timerContainer.classList.remove('warning');
+    
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        timerContainer.textContent = timeLeft;
+        
+        if (timeLeft <= 10) {
+            timerContainer.classList.add('warning');
+        }
+        
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            handleTimeout();
+        }
+    }, 1000);
+}
 
-// Initialize theme on page load
-initTheme();
+function stopTimer() {
+    clearInterval(timerInterval);
+    timerContainer.classList.remove('warning');
+}
 
-/**
- * Shuffle array using Fisher-Yates algorithm
- */
+function handleTimeout() {
+    questionResults.push(false);
+    updateProgressMap();
+    
+    // Fall animation
+    gameContainer.classList.add('fall');
+    const allEmojis = document.querySelectorAll('.traffic-emoji');
+    allEmojis.forEach(emoji => {
+        emoji.style.animation = 'fall 1s ease-in forwards';
+        emoji.style.animationDelay = Math.random() * 0.3 + 's';
+    });
+    
+    setTimeout(() => {
+        gameContainer.classList.remove('fall');
+        // Reset emoji animations
+        allEmojis.forEach(emoji => {
+            emoji.style.animation = '';
+            const duration = (15 + Math.random() * 10) + 's';
+            emoji.style.animation = `float ${duration} infinite`;
+        });
+        
+        currentQuestionIndex++;
+        if (currentQuestionIndex >= shuffledQuestions.length) {
+            endGame();
+        } else {
+            loadQuestion();
+        }
+    }, 1000);
+}
+
+// Progress map functions
+function initProgressMap() {
+    progressDots.innerHTML = '';
+    for (let i = 0; i < shuffledQuestions.length; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'progress-dot';
+        dot.textContent = i + 1;
+        progressDots.appendChild(dot);
+    }
+    updateProgressMap();
+}
+
+function updateProgressMap() {
+    const dots = progressDots.querySelectorAll('.progress-dot');
+    dots.forEach((dot, index) => {
+        dot.classList.remove('current', 'completed', 'failed');
+        if (index < currentQuestionIndex) {
+            if (questionResults[index]) {
+                dot.classList.add('completed');
+            } else {
+                dot.classList.add('failed');
+            }
+        } else if (index === currentQuestionIndex) {
+            dot.classList.add('current');
+        }
+    });
+}
+
+// Shuffle array
 function shuffle(array) {
     const newArray = [...array];
     for (let i = newArray.length - 1; i > 0; i--) {
@@ -89,25 +244,31 @@ function shuffle(array) {
     return newArray;
 }
 
-/**
- * Initialize and start the quiz game
- */
+// Start Game
 function startGame() {
-    startBtn.classList.add('hide');
-    quizArea.classList.remove('hide');
-    progressBar.classList.remove('hide');
+    initAudioContext(); // Initialize audio on user interaction
+    gameContainer.classList.add('fade-out');
     
-    score = 0;
-    currentQuestionIndex = 0;
-    scoreSpan.textContent = score;
-    
-    shuffledQuestions = shuffle(trafficSigns);
-    loadQuestion();
+    setTimeout(() => {
+        startBtn.classList.add('hide');
+        quizArea.classList.remove('hide');
+        progressBar.classList.remove('hide');
+        progressMap.classList.remove('hide');
+        timerContainer.classList.remove('hide');
+        
+        score = 0;
+        currentQuestionIndex = 0;
+        questionResults = [];
+        scoreSpan.textContent = score;
+        
+        shuffledQuestions = shuffle(trafficSigns);
+        initProgressMap();
+        gameContainer.classList.remove('fade-out');
+        loadQuestion();
+    }, 500);
 }
 
-/**
- * Load the current question and display choices
- */
+// Load Question
 function loadQuestion() {
     resetState();
     
@@ -130,12 +291,14 @@ function loadQuestion() {
         li.addEventListener('click', selectAnswer);
         choicesList.appendChild(li);
     });
+    
+    updateProgressMap();
+    startTimer();
 }
 
-/**
- * Reset the quiz state for the next question
- */
+// Reset State
 function resetState() {
+    stopTimer();
     feedbackDiv.textContent = '';
     nextBtn.classList.add('hide');
     
@@ -144,10 +307,9 @@ function resetState() {
     }
 }
 
-/**
- * Handle answer selection and provide feedback
- */
+// Select Answer
 function selectAnswer(e) {
+    stopTimer();
     const selectedButton = e.target;
     const correct = selectedButton.textContent === shuffledQuestions[currentQuestionIndex].correctAnswer;
     const choiceButtons = document.querySelectorAll('#choices-list li');
@@ -158,10 +320,28 @@ function selectAnswer(e) {
         feedbackDiv.textContent = "✓ Correct!";
         feedbackDiv.style.color = 'var(--correct-color)';
         selectedButton.classList.add('correct');
+        questionResults.push(true);
+        
+        // Flash green
+        document.body.classList.add('correct-flash');
+        playCorrectSound();
+        
+        setTimeout(() => {
+            document.body.classList.remove('correct-flash');
+        }, 500);
     } else {
         feedbackDiv.textContent = "✗ Incorrect!";
         feedbackDiv.style.color = 'var(--incorrect-color)';
         selectedButton.classList.add('incorrect');
+        questionResults.push(false);
+        
+        // Flash red
+        document.body.classList.add('incorrect-flash');
+        playIncorrectSound();
+        
+        setTimeout(() => {
+            document.body.classList.remove('incorrect-flash');
+        }, 500);
     }
 
     choiceButtons.forEach(function(button) {
@@ -171,13 +351,16 @@ function selectAnswer(e) {
         button.style.pointerEvents = 'none';
     });
 
+    updateProgressMap();
     nextBtn.classList.remove('hide');
 }
 
-/**
- * Display final results and end the game
- */
+// End Game
 function endGame() {
+    stopTimer();
+    timerContainer.classList.add('hide');
+    progressMap.classList.add('hide');
+    
     const percentage = Math.round((score / shuffledQuestions.length) * 100);
     let message = '';
     let emoji = '';
@@ -205,3 +388,19 @@ function endGame() {
     
     progressBar.classList.add('hide');
 }
+
+// Event Listeners
+themeToggle.addEventListener('click', toggleTheme);
+startBtn.addEventListener('click', startGame);
+nextBtn.addEventListener('click', function() {
+    gameContainer.classList.add('fade-out');
+    setTimeout(() => {
+        currentQuestionIndex++;
+        gameContainer.classList.remove('fade-out');
+        loadQuestion();
+    }, 500);
+});
+
+// Initialize on page load
+initTheme();
+createTrafficEmojis();
