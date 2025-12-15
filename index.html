@@ -31,16 +31,17 @@
             <div class="progress-fill" id="progress-fill"></div>
         </div>
         
-        <div id="quiz-area" class="hide">
-            <div class="image-container">
-                <img id="sign-image" src="" alt="Traffic Sign">
-            </div>
-            <p id="question-text">What does this sign mean?</p>
-            <ul id="choices-list"></ul>
-            <div id="feedback" class="feedback"></div>
-            <button id="next-btn" class="hide btn-primary">Next Question →</button>
-        </div>
-        
+       <div id="quiz-area" class="hide">
+    <div class="image-container">
+        <img id="sign-image" src="" alt="Traffic Sign" class="media-element">
+        <video id="sign-video" class="media-element hide" controls muted autoplay loop>
+            </video>
+    </div>
+    <p id="question-text">What does this sign mean?</p>
+    <ul id="choices-list"></ul> 
+    <div id="feedback" class="feedback"></div>
+    <button id="next-btn" class="hide btn-primary">Next Question →</button>
+</div>
         <button id="start-btn" class="btn-primary">Start Quiz</button>
     </div>
 
