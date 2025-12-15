@@ -1,7 +1,7 @@
 :root {
     --primary-color: #007BFF;
     --primary-hover-color: #0056b3;
-    --background-color: #f4f7f6;
+    --background-color: #FFD700;
     --container-bg-color: #ffffff;
     --text-color: #333;
     --correct-color: #28a745;
@@ -13,7 +13,7 @@
 .dark-theme {
     --primary-color: #00bcd4;
     --primary-hover-color: #008fa0;
-    --background-color: #1a1a2e;
+    --background-color: #1a1a1a;
     --container-bg-color: #1f4068;
     --text-color: #e4e4e4;
     --correct-color: #4CAF50;
@@ -22,7 +22,6 @@
     --shadow-medium: 0 6px 20px rgba(0, 0, 0, 0.5);
 }
 
-/* Genel Stiller */
 body {
     font-family: 'Arial', sans-serif;
     background-color: var(--background-color);
@@ -32,10 +31,47 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.5s, color 0.3s;
+    position: relative;
+    overflow: hidden;
 }
 
-/* Kapsayıcı Stilleri */
+.traffic-emoji {
+    position: absolute;
+    font-size: 2em;
+    opacity: 0.3;
+    animation: float 20s infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.dark-theme .traffic-emoji {
+    opacity: 0.2;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-20px) rotate(5deg); }
+    50% { transform: translateY(-40px) rotate(-5deg); }
+    75% { transform: translateY(-20px) rotate(3deg); }
+}
+
+body.correct-flash {
+    background-color: #28a745 !important;
+}
+
+.dark-theme.correct-flash {
+    background-color: #1e7e34 !important;
+}
+
+body.incorrect-flash {
+    background-color: #dc3545 !important;
+}
+
+.dark-theme.incorrect-flash {
+    background-color: #8b1e2b !important;
+}
+
 .game-container {
     background-color: var(--container-bg-color);
     padding: 30px;
@@ -44,9 +80,28 @@ body {
     width: 90%;
     max-width: 500px;
     text-align: center;
+    position: relative;
+    z-index: 10;
+    opacity: 1;
+    transition: opacity 0.5s, transform 0.5s;
 }
 
-/* Başlık Stilleri */
+.game-container.fade-out {
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+.game-container.fall {
+    animation: fall 1s ease-in forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(20deg);
+        opacity: 0;
+    }
+}
+
 h1 {
     color: var(--primary-color);
     margin-bottom: 5px;
@@ -59,7 +114,6 @@ h1 {
     opacity: 0.8;
 }
 
-/* Buton Stilleri */
 .btn-primary {
     background-color: var(--primary-color);
     color: white;
@@ -81,7 +135,6 @@ h1 {
     display: none !important;
 }
 
-/* Puan Alanı */
 .score-container {
     margin-bottom: 25px;
     font-size: 1.2em;
@@ -92,13 +145,12 @@ h1 {
     color: var(--primary-color);
 }
 
-/* Quiz Alanı */
 #quiz-area {
     margin-top: 20px;
 }
 
 .image-container {
-    height: 150px; /* SVG'ler için sabit yükseklik */
+    height: 150px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -118,7 +170,6 @@ h1 {
     font-weight: 500;
 }
 
-/* Seçenekler Listesi */
 #choices-list {
     list-style: none;
     padding: 0;
@@ -162,7 +213,6 @@ h1 {
     opacity: 0.6;
 }
 
-/* Geri Bildirim ve İlerleme Çubuğu */
 .feedback {
     margin-top: 15px;
     font-size: 1.2em;
@@ -189,7 +239,6 @@ h1 {
     transition: width 0.4s ease-in-out;
 }
 
-/* Tema Değiştirme Butonu */
 .theme-toggle {
     position: absolute;
     top: 20px;
@@ -203,6 +252,7 @@ h1 {
     font-size: 1.5em;
     line-height: 1;
     transition: background-color 0.3s;
+    z-index: 1000;
 }
 
 .theme-toggle:hover {
@@ -213,7 +263,85 @@ h1 {
     display: inline-block;
 }
 
-/* Quiz Bitti Ekranı */
+.progress-map {
+    position: absolute;
+    top: 20px;
+    right: 80px;
+    background: var(--container-bg-color);
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-light);
+    z-index: 1000;
+}
+
+.progress-map-title {
+    font-size: 0.9em;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: var(--text-color);
+}
+
+.progress-dots {
+    display: flex;
+    gap: 8px;
+}
+
+.progress-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7em;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.progress-dot.current {
+    background-color: var(--primary-color);
+    color: white;
+    transform: scale(1.2);
+}
+
+.progress-dot.completed {
+    background-color: var(--correct-color);
+    color: white;
+}
+
+.progress-dot.failed {
+    background-color: var(--incorrect-color);
+    color: white;
+}
+
+.timer-container {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--container-bg-color);
+    padding: 10px 20px;
+    border-radius: 25px;
+    box-shadow: var(--shadow-light);
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--text-color);
+    z-index: 100;
+    min-width: 80px;
+    text-align: center;
+}
+
+.timer-container.warning {
+    animation: pulse 0.5s infinite;
+    color: var(--incorrect-color);
+}
+
+@keyframes pulse {
+    0%, 100% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.1); }
+}
+
 .final-score {
     font-size: 2.5em;
     font-weight: bold;
@@ -225,11 +353,26 @@ h1 {
     font-weight: 600;
 }
 
+@media (max-width: 768px) {
+    .progress-map {
+        top: 80px;
+        right: 20px;
+    }
+    
+    .progress-dots {
+        flex-direction: column;
+    }
+}
+
 @media (max-width: 480px) {
     .game-container {
         padding: 20px;
     }
     #choices-list {
         grid-template-columns: 1fr;
+    }
+    
+    .progress-map {
+        display: none;
     }
 }
