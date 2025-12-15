@@ -1,30 +1,55 @@
 // Traffic Signs Data
 const trafficSigns = [
+    // Örnek 1: Resim Tabanlı Soru (Mevcut yapı korundu, mediaType eklendi)
     {
+        mediaType: 'image',
         image: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="200"%3E%3Cpolygon points="100,20 180,180 20,180" fill="%23FF0000" stroke="%23FFF" stroke-width="8"/%3E%3Ctext x="100" y="140" font-size="60" fill="white" text-anchor="middle" font-weight="bold"%3ESTOP%3C/text%3E%3C/svg%3E',
         question: 'What does this sign mean?',
         choices: ['Stop', 'Yield', 'Go', 'Slow Down'],
         correctAnswer: 'Stop'
     },
+    // Örnek 2: Video Tabanlı Soru (YENİ YAPI)
+    // NOT: 'videos/situation1.mp4' dosyasının projenizde bulunması gerekir.
     {
+        mediaType: 'video',
+        videoSource: 'videos/situation1.mp4', // Video dosyanızın yolu
+        question: 'Bu durumda geçiş önceliği hangi araçtadır?',
+        choices: ['Kırmızı araba', 'Mavi araba', 'Sarı kamyon', 'Yaya'],
+        correctAnswer: 'Kırmızı araba'
+    },
+    // Örnek 3: Resim Tabanlı Soru
+    {
+        mediaType: 'image',
         image: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="200"%3E%3Cpolygon points="100,20 180,100 100,180 20,100" fill="%23FFD700" stroke="%23000" stroke-width="6"/%3E%3Ctext x="100" y="120" font-size="45" fill="black" text-anchor="middle" font-weight="bold"%3EYIELD%3C/text%3E%3C/svg%3E',
         question: 'What does this sign mean?',
         choices: ['Merge', 'Yield', 'Stop', 'Do Not Enter'],
         correctAnswer: 'Yield'
     },
+    // Örnek 4: Video Tabanlı Soru
     {
+        mediaType: 'video',
+        videoSource: 'videos/pedestrian.mp4', // Başka bir video dosyanızın yolu
+        question: 'Yaya yolu çizgisine yaklaşırken ne yapmalısınız?',
+        choices: ['Hızlanmalısınız', 'Fren yapmalısınız', 'Hazır olmalı ve yavaşlamalısınız', 'Korna çalmalısınız'],
+        correctAnswer: 'Hazır olmalı ve yavaşlamalısınız'
+    },
+    // Geri kalan mevcut resim tabanlı sorular (mediaType eklenmiş)
+    {
+        mediaType: 'image',
         image: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="200"%3E%3Ccircle cx="100" cy="100" r="80" fill="white" stroke="%23FF0000" stroke-width="12"/%3E%3Ctext x="100" y="130" font-size="70" fill="black" text-anchor="middle" font-weight="bold"%3E50%3C/text%3E%3C/svg%3E',
         question: 'What is the maximum speed allowed?',
         choices: ['40 mph', '60 mph', '50 mph', '30 mph'],
         correctAnswer: '50 mph'
     },
     {
+        mediaType: 'image',
         image: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="200"%3E%3Ccircle cx="100" cy="100" r="80" fill="white" stroke="%23FF0000" stroke-width="12"/%3E%3Ctext x="100" y="90" font-size="45" fill="red" text-anchor="middle" font-weight="bold"%3ENO%3C/text%3E%3Ctext x="100" y="140" font-size="40" fill="red" text-anchor="middle" font-weight="bold"%3EPARKING%3C/text%3E%3C/svg%3E',
         question: 'What is prohibited here?',
         choices: ['No Entry', 'No U-Turn', 'No Parking', 'No Stopping'],
         correctAnswer: 'No Parking'
     },
     {
+        mediaType: 'image',
         image: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="200"%3E%3Crect x="20" y="20" width="160" height="160" fill="%23FFD700" stroke="%23000" stroke-width="6"/%3E%3Ctext x="100" y="80" font-size="35" fill="black" text-anchor="middle" font-weight="bold"%3ESCHOOL%3C/text%3E%3Ctext x="100" y="130" font-size="35" fill="black" text-anchor="middle" font-weight="bold"%3EZONE%3C/text%3E%3C/svg%3E',
         question: 'What should you watch out for?',
         choices: ['Hospital Ahead', 'Children Crossing', 'Playground Area', 'Library'],
@@ -38,6 +63,8 @@ const themeIcon = document.querySelector('.theme-icon');
 const startBtn = document.getElementById('start-btn');
 const quizArea = document.getElementById('quiz-area');
 const signImage = document.getElementById('sign-image');
+// YENİ: Video elementini yakalamak için
+const signVideo = document.getElementById('sign-video'); 
 const choicesList = document.getElementById('choices-list');
 const feedbackDiv = document.getElementById('feedback');
 const nextBtn = document.getElementById('next-btn');
@@ -65,7 +92,7 @@ function initAudioContext() {
     }
 }
 
-// Sound Effects
+// Sound Effects (Orijinal koddan alındı)
 function playCorrectSound() {
     if (!audioContext) return;
     
@@ -117,7 +144,7 @@ function playIncorrectSound() {
     oscillator.stop(audioContext.currentTime + 0.8);
 }
 
-// Create animated background
+// Create animated background (Orijinal koddan alındı)
 function createTrafficEmojis() {
     const emojis = ['🚗', '🚙', '🚕', '🚌', '🚎', '🏍️', '🚲', '🛴', '🚦', '🚥', '⛽', '🅿️', '🚧', '⚠️'];
     const body = document.body;
@@ -134,7 +161,7 @@ function createTrafficEmojis() {
     }
 }
 
-// Theme Management
+// Theme Management (Orijinal koddan alındı)
 function initTheme() {
     const savedTheme = localStorage.getItem('theme') || 'light';
     if (savedTheme === 'dark') {
@@ -150,7 +177,7 @@ function toggleTheme() {
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
 }
 
-// Timer functions
+// Timer functions (Orijinal koddan alındı)
 function startTimer() {
     timeLeft = 30;
     timerContainer.textContent = timeLeft;
@@ -180,7 +207,7 @@ function handleTimeout() {
     questionResults.push(false);
     updateProgressMap();
     
-    // Fall animation
+    // Fall animation (Orijinal koddan alındı)
     gameContainer.classList.add('fall');
     const allEmojis = document.querySelectorAll('.traffic-emoji');
     allEmojis.forEach(emoji => {
@@ -206,7 +233,7 @@ function handleTimeout() {
     }, 1000);
 }
 
-// Progress map functions
+// Progress map functions (Orijinal koddan alındı)
 function initProgressMap() {
     progressDots.innerHTML = '';
     for (let i = 0; i < shuffledQuestions.length; i++) {
@@ -234,7 +261,7 @@ function updateProgressMap() {
     });
 }
 
-// Shuffle array
+// Shuffle array (Orijinal koddan alındı)
 function shuffle(array) {
     const newArray = [...array];
     for (let i = newArray.length - 1; i > 0; i--) {
@@ -244,7 +271,7 @@ function shuffle(array) {
     return newArray;
 }
 
-// Start Game
+// Start Game (Orijinal koddan alındı)
 function startGame() {
     initAudioContext(); // Initialize audio on user interaction
     gameContainer.classList.add('fade-out');
@@ -268,7 +295,7 @@ function startGame() {
     }, 500);
 }
 
-// Load Question
+// Load Question (GÜNCELLENMİŞ: Video/Resim kontrolü eklendi)
 function loadQuestion() {
     resetState();
     
@@ -281,8 +308,25 @@ function loadQuestion() {
     const progress = ((currentQuestionIndex + 1) / shuffledQuestions.length) * 100;
     progressFill.style.width = progress + '%';
     
-    signImage.src = currentQuestion.image;
-    signImage.alt = currentQuestion.correctAnswer;
+    // YENİ: Medya Yönetimi
+    if (currentQuestion.mediaType === 'video') {
+        signVideo.src = currentQuestion.videoSource;
+        // Eğer videonun otomatik başlamasını istiyorsanız:
+        signVideo.load();
+        signVideo.play().catch(e => console.log("Video autoplay failed:", e)); // Autoplay hatasını yönetmek için
+        
+        signVideo.classList.remove('hide');
+        signImage.classList.add('hide');
+        signImage.src = ''; // Resmi temizle
+    } else { // mediaType === 'image' veya tanımsızsa
+        signImage.src = currentQuestion.image;
+        signImage.alt = currentQuestion.correctAnswer;
+        
+        signImage.classList.remove('hide');
+        signVideo.classList.add('hide');
+        signVideo.src = ''; // Video kaynağını temizle
+    }
+
     document.getElementById('question-text').textContent = currentQuestion.question;
     
     currentQuestion.choices.forEach(function(choice) {
@@ -296,20 +340,32 @@ function loadQuestion() {
     startTimer();
 }
 
-// Reset State
+// Reset State (GÜNCELLENMİŞ: Video oynatmayı durdurma eklendi)
 function resetState() {
     stopTimer();
     feedbackDiv.textContent = '';
     nextBtn.classList.add('hide');
     
+    // Video varsa durdur
+    if (signVideo && !signVideo.paused) {
+        signVideo.pause();
+        signVideo.currentTime = 0; // Başa sar
+    }
+
     while (choicesList.firstChild) {
         choicesList.removeChild(choicesList.firstChild);
     }
 }
 
-// Select Answer
+// Select Answer (Orijinal koddan alındı)
 function selectAnswer(e) {
     stopTimer();
+    
+    // Video varsa durdur
+    if (signVideo && !signVideo.paused) {
+        signVideo.pause();
+    }
+    
     const selectedButton = e.target;
     const correct = selectedButton.textContent === shuffledQuestions[currentQuestionIndex].correctAnswer;
     const choiceButtons = document.querySelectorAll('#choices-list li');
@@ -355,7 +411,7 @@ function selectAnswer(e) {
     nextBtn.classList.remove('hide');
 }
 
-// End Game
+// End Game (Orijinal koddan alındı)
 function endGame() {
     stopTimer();
     timerContainer.classList.add('hide');
@@ -389,7 +445,7 @@ function endGame() {
     progressBar.classList.add('hide');
 }
 
-// Event Listeners
+// Event Listeners (Orijinal koddan alındı)
 themeToggle.addEventListener('click', toggleTheme);
 startBtn.addEventListener('click', startGame);
 nextBtn.addEventListener('click', function() {
@@ -401,6 +457,6 @@ nextBtn.addEventListener('click', function() {
     }, 500);
 });
 
-// Initialize on page load
+// Initialize on page load (Orijinal koddan alındı)
 initTheme();
 createTrafficEmojis();
