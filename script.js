@@ -412,7 +412,7 @@ function loadQuestion() {
         signVideo.classList.remove('hide');
 
     } else { // Varsayılan olarak resim gösterilir (veya 'image' medya tipi)
-        signImage.src = currentQuestion.videoSource;
+        signImage.src = currentQuestion.image;
         signImage.alt = currentQuestion.correctAnswer;
         signImage.classList.remove('hide');
     }
