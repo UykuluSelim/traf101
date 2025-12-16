@@ -2,7 +2,7 @@
 const trafficSigns = [
     {
         mediaType: 'image',
-        videoSource: 'images/SORU 1.jpg',
+        image: 'images/SORU 1.jpg',
         question: 'On which side of the road is traffic in Cyprus?',
         choices: ['Right', 'Left', 'Middle', 'Both Sides'],
         correctAnswer: 'Left',
@@ -10,7 +10,7 @@ const trafficSigns = [
     },
     {
         mediaType: 'image',
-        videoSource: 'images/SORU 2.jpg',
+        image: 'images/SORU 2.jpg',
         question: 'What is the general speed limit in urban areas in Northern Cyprus?',
         choices: ['30 km/h', '50 km/h', '65 km/h', '80 km/h'],
         correctAnswer: '50 km/h',
@@ -18,7 +18,7 @@ const trafficSigns = [
     },
     {
         mediaType: 'image',
-        videoSource: 'images/SORU 3.jpg',
+        image: 'images/SORU 3.jpg',
         question: 'According to the right-of-way rule at intersections, which vehicle has priority?',
         choices: ['The one coming from the left', 'The one coming from the right', 'The fastest vehicle', 'The largest vehicle'],
         correctAnswer: 'The one coming from the right',
@@ -26,7 +26,7 @@ const trafficSigns = [
     },
     {
         mediaType: 'image',
-        videoSource: 'images/SORU 4.jpg',
+        image: 'images/SORU 4.jpg',
         question: 'Which statement about seat belts is correct?',
         choices: ['Only drivers must wear them', 'They are required only on long trips', 'They are mandatory for all passengers', 'Passengers on the back seat don’t need them'],
         correctAnswer: 'They are mandatory for all passengers',
@@ -34,7 +34,7 @@ const trafficSigns = [
     },
     {
         mediaType: 'image',
-        videoSource: 'images/SORU 5.jpg',
+        image: 'images/SORU 5.jpg',
         question: 'What must a driver do when encountering a “STOP” sign?',
         choices: ['Slow down and continue', 'Look only to the right', 'Come to a full stop and check the road', 'Honk the horn'],
         correctAnswer: 'Come to a full stop and check the road',
@@ -42,7 +42,7 @@ const trafficSigns = [
     },
     {
         mediaType: 'image',
-        videoSource: 'images/SORU 6.jpg',
+        image: 'images/SORU 6.jpg',
         question: 'What is the minimum tread depth required for vehicle tires?',
         choices: ['1 mm', '1.6 mm', '3 mm', '5 mm'],
         correctAnswer: '1.6 mm',
@@ -50,7 +50,7 @@ const trafficSigns = [
     },
     {
         mediaType: 'image',
-        videoSource: 'images/SORU 7.jpg',
+        image: 'images/SORU 7.jpg',
         question: 'When must a driver turn on the vehicle’s headlights?',
         choices: ['On a sunny day', 'When visibility is reduced', 'While waiting in a city center', 'When parked'],
         correctAnswer: 'When visibility is reduced',
@@ -58,7 +58,7 @@ const trafficSigns = [
     },
     {
         mediaType: 'image',
-        videoSource: 'images/SORU 8.jpg',
+        image: 'images/SORU 8.jpg',
         question: 'What does the term “blind spot” mean?',
         choices: ['An area where brakes don’t work', 'The area that cannot be seen with mirrors', 'The moment the engine stops', 'A point where the road is empty'],
         correctAnswer: 'The area that cannot be seen with mirrors',
@@ -66,7 +66,7 @@ const trafficSigns = [
     },
     {
         mediaType: 'image',
-        videoSource: 'images/SORU 9.jpg',
+        image: 'images/SORU 9.jpg',
         question: 'Which of the following is NOT a type of traffic sign?',
         choices: ['Informational signs', 'Warning signs', 'Advertising billboards', 'Prohibitory signs'],
         correctAnswer: 'Advertising billboards',
@@ -74,7 +74,7 @@ const trafficSigns = [
     },
     {
         mediaType: 'image',
-        videoSource: 'images/SORU 10.jpg',
+        image: 'images/SORU 10.jpg',
         question: 'What should a driver do when approaching a school crossing?',
         choices: ['Speed up', 'Honk the horn', 'Slow down and give way to pedestrians', 'Cross quickly'],
         correctAnswer: 'Slow down and give way to pedestrians',
@@ -82,7 +82,7 @@ const trafficSigns = [
     },
     {
         mediaType: 'image',
-        videoSource: 'images/SORU 11.jpg',
+        image: 'images/SORU 11.jpg',
         question: 'What is the main purpose of using turn signals?',
         choices: ['To reduce horn use', 'To increase vehicle speed', 'To inform other drivers and pedestrians', 'To stop vehicles on the road'],
         correctAnswer: 'To inform other drivers and pedestrians',
@@ -90,7 +90,7 @@ const trafficSigns = [
     },
     {
         mediaType: 'image',
-        videoSource: 'images/SORU 12.jpg',
+        image: 'images/SORU 12.jpg',
         question: 'What do traffic signs with a red color generally indicate?',
         choices: ['Prohibitions and stops', 'Directions', 'Warnings', 'Information'],
         correctAnswer: 'Prohibitions and stops',
@@ -98,7 +98,7 @@ const trafficSigns = [
     },
     {
         mediaType: 'image',
-        videoSource: 'images/SORU 13.jpg',
+        image: 'images/SORU 13.jpg',
         question: 'Electronic Stability Control (ESC) helps drivers by:',
         choices: ['Automatically applying brakes when speeding', 'Detecting and reducing loss of traction', 'Improving fuel efficiency', 'Enhancing radio signal reception'],
         correctAnswer: 'Detecting and reducing loss of traction',
@@ -106,7 +106,7 @@ const trafficSigns = [
     },
     {
         mediaType: 'image',
-        videoSource: 'images/SORU 14.jpg',
+        image: 'images/SORU 14.jpg',
         question: 'What is the primary purpose of the Anti-lock Braking System (ABS) in modern vehicles?',
         choices: ['To increase the vehicle’s maximum speed', 'To prevent wheels from locking during emergency braking', 'To reduce fuel consumption', 'To improve engine performance'],
         correctAnswer: 'To prevent wheels from locking during emergency braking',
@@ -114,7 +114,7 @@ const trafficSigns = [
     },
     {
         mediaType: 'image',
-        videoSource: 'images/SORU 15.jpg',
+        image: 'images/SORU 15.jpg',
         question: 'Hydroplaning occurs when:',
         choices: ['The vehicle is driven through deep water intentionally', 'Tires lose contact with the road surface due to water buildup', 'The brakes get wet', 'The windshield wipers fail'],
         correctAnswer: 'Tires lose contact with the road surface due to water buildup',
